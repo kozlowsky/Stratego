@@ -56,8 +56,8 @@ public class Game {
     private int checkDiagonal(int x, int y, int offset) {
         int points = 0;
         for (int i = offset; i < directions.length / 2 + offset; i++) {
-            int tmpX = x;
-            int tmpY = y;
+            int tmpX = x + directions[i][0];
+            int tmpY = y + directions[i][1];
 
             while(tmpX >= 0 && tmpX < boardSize && tmpY >= 0 && tmpY < boardSize) {
                 if(board[tmpX][tmpY] == 0)
