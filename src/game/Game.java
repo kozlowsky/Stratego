@@ -7,13 +7,21 @@ public class Game {
     private int player;
     private int playerPoints[];
 
-    private static int[][] directions = { {-1, -1}, {-1, 1}, {1, 1}, {1, -1} };
+    private static int[][] directions = { {-1, -1}, {1, 1}, {-1, 1}, {1, -1} };
 
     public Game(int boardSize) {
         this.boardSize = boardSize;
         board = new int[boardSize][boardSize];
         player = 1;
         playerPoints = new int[2];
+        playerPoints[0] = 0;
+        playerPoints[1] = 0;
+    }
+
+    public void onFieldClicked(int x, int y) {
+        markField(x, y);
+        checkPoints(x, y);
+        changePlayer();
     }
 
     private void markField(int x, int y) {
@@ -26,7 +34,7 @@ public class Game {
         if(checkColumn(y))
             playerPoints[player - 1] += boardSize;
 
-        playerPoints[player - 1] += checkDiagonal(x, y);
+        playerPoints[player - 1] += checkDiagonal(x, y, 0) + checkDiagonal(x, y, 2);
     }
 
     private boolean checkRow(int x) {
@@ -45,9 +53,9 @@ public class Game {
         return true;
     }
 
-    private int checkDiagonal(int x, int y) {
+    private int checkDiagonal(int x, int y, int offset) {
         int points = 0;
-        for (int[] direction : directions) {
+        for (int i = offset; i < directions.length / 2 + offset; i++) {
             int tmpX = x;
             int tmpY = y;
 
@@ -55,8 +63,8 @@ public class Game {
                 if(board[tmpX][tmpY] == 0)
                     return 0;
 
-                tmpX += direction[0];
-                tmpY += direction[1];
+                tmpX += directions[i][0];
+                tmpY += directions[i][1];
                 points++;
             }
         }
@@ -64,6 +72,18 @@ public class Game {
     }
 
     private void changePlayer() {
-        player = (player == 1) ? 0 : 1;
+        player = (player == 1) ? 2 : 1;
+    }
+
+    public void printBoard() {
+        System.out.println("Player One points: " + playerPoints[0]);
+        System.out.println("Player Two points: " + playerPoints[1]);
+        for(int i = 0; i < boardSize; i++) {
+            for(int j = 0; j < boardSize; j++) {
+                System.out.print(board[i][j]);
+            }
+            System.out.print("\n");
+        }
+        System.out.println("-----------");
     }
 }
