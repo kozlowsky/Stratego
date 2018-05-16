@@ -60,8 +60,8 @@ public class Controller {
                 }
             }
         } else {
-            Alert alert = new CustomAlert(Alert.AlertType.ERROR, "Wrong size input!", "Board size input you have entered is incorrect", "Please input correct board size in order to start new game.");
-            alert.showAndWait();
+            CustomAlert alert = new CustomAlert(Alert.AlertType.ERROR);
+            alert.throwAlert("Wrong size input!", "Board size input you have entered is incorrect", "Please input correct board size in order to start new game.");
         }
     }
 }
