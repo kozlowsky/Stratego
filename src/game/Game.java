@@ -25,8 +25,8 @@ public class Game {
             playerPoints[player - 1] += boardSize;
         if(checkColumn(y))
             playerPoints[player - 1] += boardSize;
-        if(checkDiagonal(x, y))
-            playerPoints[player - 1] += boardSize;
+
+        playerPoints[player - 1] += checkDiagonal(x, y);
     }
 
     private boolean checkRow(int x) {
