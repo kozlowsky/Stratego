@@ -4,12 +4,12 @@ import javafx.scene.control.Alert;
 
 public class CustomAlert extends Alert{
 
-    CustomAlert(AlertType alertType) {
+    public CustomAlert(AlertType alertType) {
         super(alertType);
 
     }
 
-    void throwAlert(String alertTitle, String alertHeader, String alertContent){
+    public void throwAlert(String alertTitle, String alertHeader, String alertContent){
         super.setTitle(alertTitle);
         super.setHeaderText(alertHeader);
         super.setContentText(alertContent);

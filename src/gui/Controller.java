@@ -1,5 +1,7 @@
-package game;
+package gui;
 
+import game.CustomAlert;
+import game.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -22,7 +24,7 @@ public class Controller {
     @FXML
     public TextField size;
 
-    public Game game;
+    private Game game;
 
     public void newGame() {
         game = new Game(getBoardSize());
@@ -58,8 +60,8 @@ public class Controller {
 
                     Rectangle rec = new Rectangle(0, 0, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize);
                     rec.setOnMouseClicked(event -> {
-                        if(game.getPlayer()==1) rec.setFill(new ImagePattern(new Image("/game/android.png")));
-                        else rec.setFill(new ImagePattern(new Image("/game/apple.png")));
+                        if(game.getPlayer()==1) rec.setFill(new ImagePattern(new Image("/static/android.png")));
+                        else rec.setFill(new ImagePattern(new Image("/static/apple.png")));
                         game.onFieldClicked(GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
                         rec.setDisable(true);
                     });
