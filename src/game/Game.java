@@ -22,6 +22,7 @@ public class Game {
         markField(x, y);
         checkPoints(x, y);
         changePlayer();
+        printBoard();
     }
 
     private void markField(int x, int y) {

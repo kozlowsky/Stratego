@@ -4,9 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class Controller {
@@ -20,7 +22,10 @@ public class Controller {
     @FXML
     public TextField size;
 
+    public Game game;
+
     public void newGame() {
+        game = new Game(getBoardSize());
         clearBoard();
         board.setGridLinesVisible(true);
         addFields();
@@ -52,7 +57,12 @@ public class Controller {
                 for (int j = 0; j < boardSize; j++) {
 
                     Rectangle rec = new Rectangle(0, 0, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize);
-
+                    rec.setOnMouseClicked(event -> {
+                        if(game.getPlayer()==1) rec.setFill(new ImagePattern(new Image("/game/android.png")));
+                        else rec.setFill(new ImagePattern(new Image("/game/apple.png")));
+                        game.onFieldClicked(GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
+                        rec.setDisable(true);
+                    });
                     if ((i + j) % 2 == 0)
                         rec.setFill(Color.BLACK);
                     else rec.setFill(Color.WHITE);

@@ -14,13 +14,13 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
-        Game game = new Game(3);
-        game.onFieldClicked(0, 0);
-        game.printBoard();
-        game.onFieldClicked(1, 1);
-        game.printBoard();
-        game.onFieldClicked(2, 2);
-        game.printBoard();
+//        Game game = new Game(3);
+//        game.onFieldClicked(0, 0);
+//        game.printBoard();
+//        game.onFieldClicked(1, 1);
+//        game.printBoard();
+//        game.onFieldClicked(2, 2);
+//        game.printBoard();
     }
 
 
