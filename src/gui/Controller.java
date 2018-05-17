@@ -5,6 +5,7 @@ import game.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
@@ -16,13 +17,17 @@ import javafx.scene.shape.Rectangle;
 public class Controller {
 
     @FXML
-    public GridPane board;
+    private GridPane board;
 
     @FXML
-    public Button add;
+    private TextField size;
 
     @FXML
-    public TextField size;
+    private Label score1;
+
+    @FXML
+    private Label score2;
+
 
     private Game game;
 
@@ -52,6 +57,7 @@ public class Controller {
 
     private void addFields() {
         int boardSize = getBoardSize();
+
         if (boardSize > 1 && boardSize < 150) {
             for (int i = 0; i < boardSize; i++) {
                 board.addColumn(i);
@@ -60,9 +66,16 @@ public class Controller {
 
                     Rectangle rec = new Rectangle(0, 0, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize);
                     rec.setOnMouseClicked(event -> {
-                        if(game.getPlayer()==1) rec.setFill(new ImagePattern(new Image("/static/android.png")));
-                        else rec.setFill(new ImagePattern(new Image("/static/apple.png")));
                         game.onFieldClicked(GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
+                        System.out.println(game.getPlayer());
+                        if(game.getPlayer()==1){
+                            rec.setFill(new ImagePattern(new Image("/static/android.png")));
+                            score1.setText(String.valueOf(game.getPlayerPoints()[1]));
+                        }
+                        else {
+                            rec.setFill(new ImagePattern(new Image("/static/apple.png")));
+                            score2.setText(String.valueOf(game.getPlayerPoints()[0]));
+                        }
                         rec.setDisable(true);
                     });
                     if ((i + j) % 2 == 0)
