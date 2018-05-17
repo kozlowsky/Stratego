@@ -25,7 +25,6 @@ public class Game {
     public void onFieldClicked(int x, int y) {
         markField(x, y);
         checkPoints(x, y);
-        changePlayer();
         printBoard();
 
         movesCount++;
@@ -87,7 +86,7 @@ public class Game {
         return points;
     }
 
-    private void changePlayer() {
+    public void changePlayer() {
         player = (player == 1) ? 2 : 1;
     }
 

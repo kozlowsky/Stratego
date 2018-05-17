@@ -4,7 +4,6 @@ import game.CustomAlert;
 import game.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -50,6 +49,8 @@ public class Controller {
     }
 
     private void clearBoard() {
+        score1.setText("0");
+        score2.setText("0");
         board.getChildren().clear();
         board.getColumnConstraints().clear();
         board.getRowConstraints().clear();
@@ -63,21 +64,8 @@ public class Controller {
                 board.addColumn(i);
                 board.getColumnConstraints().add(new ColumnConstraints(Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize));
                 for (int j = 0; j < boardSize; j++) {
-
                     Rectangle rec = new Rectangle(0, 0, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize);
-                    rec.setOnMouseClicked(event -> {
-                        game.onFieldClicked(GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
-                        System.out.println(game.getPlayer());
-                        if(game.getPlayer()==1){
-                            rec.setFill(new ImagePattern(new Image("/static/android.png")));
-                            score1.setText(String.valueOf(game.getPlayerPoints()[1]));
-                        }
-                        else {
-                            rec.setFill(new ImagePattern(new Image("/static/apple.png")));
-                            score2.setText(String.valueOf(game.getPlayerPoints()[0]));
-                        }
-                        rec.setDisable(true);
-                    });
+                    rec.setOnMouseClicked(event -> updateAfterClick(rec));
                     if ((i + j) % 2 == 0)
                         rec.setFill(Color.BLACK);
                     else rec.setFill(Color.WHITE);
@@ -88,5 +76,33 @@ public class Controller {
             CustomAlert alert = new CustomAlert(Alert.AlertType.ERROR);
             alert.throwAlert("Wrong size input!", "Board size input you have entered is incorrect", "Please input correct board size in order to start new game.");
         }
+    }
+
+    private void updateAfterClick(Rectangle rec) {
+
+        game.onFieldClicked(GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
+        System.out.println(game.getPlayer());
+        if (game.getPlayer() == 1) {
+            rec.setFill(new ImagePattern(new Image("/static/android.png")));
+            score1.setText(String.valueOf(game.getPlayerPoints()[0]));
+        } else {
+            rec.setFill(new ImagePattern(new Image("/static/apple.png")));
+            score2.setText(String.valueOf(game.getPlayerPoints()[1]));
+        }
+        game.changePlayer();
+        rec.setDisable(true);
+        if (game.isGameOver()) {
+            CustomAlert alert = new CustomAlert(Alert.AlertType.INFORMATION);
+            alert.throwAlert("GAME OVER", "THE RESULT OF THE GAME", getWinner() + " POINTS!");
+        }
+
+    }
+
+    private String getWinner() {
+        if (Integer.valueOf(score1.getText()) > Integer.valueOf(score2.getText())) {
+            return "PLAYER 1 IS A WINNER WITH " + Integer.valueOf(score1.getText());
+        } else if (Integer.valueOf(score1.getText()) < Integer.valueOf(score2.getText())) {
+            return "PLAYER 2 IS A WINNER WITH " + Integer.valueOf(score2.getText());
+        } else return "DRAW";
     }
 }
