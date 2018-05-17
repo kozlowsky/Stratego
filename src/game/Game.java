@@ -34,7 +34,14 @@ public class Game {
         if(checkColumn(y))
             playerPoints[player - 1] += boardSize;
 
-        playerPoints[player - 1] += checkDiagonal(x, y, 0) + checkDiagonal(x, y, 2);
+        int pointsDiagonal = checkDiagonal(x, y, 0);
+        int pointsDiagonalOffset = checkDiagonal(x, y, 2);
+        if(pointsDiagonal > 0)
+            pointsDiagonal++;
+        if(pointsDiagonalOffset > 0)
+            pointsDiagonalOffset++;
+
+        playerPoints[player - 1] += pointsDiagonal + pointsDiagonalOffset;
     }
 
     private boolean checkRow(int x) {
