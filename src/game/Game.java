@@ -93,4 +93,12 @@ public class Game {
         }
         System.out.println("-----------");
     }
+
+    public int[] getPlayerPoints() {
+        return this.playerPoints;
+    }
+
+    public int getPlayer() {
+        return this.player;
+    }
 }
