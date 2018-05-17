@@ -22,6 +22,23 @@
                   <Font size="50.0" />
                </font>
             </Label>
+            <Label layoutX="139.0" layoutY="377.0" text="Score">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label layoutX="186.0" layoutY="462.0" text="Player 1">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+             <Label fx:id="score1" layoutX="273.0" layoutY="499.0" text="0" />
+             <Label fx:id="score2" layoutX="273.0" layoutY="462.0" text="0" />
+            <Label layoutX="186.0" layoutY="499.0" text="Player 2">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children></Pane>
    </children>
 </HBox>
