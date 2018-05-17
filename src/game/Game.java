@@ -6,6 +6,8 @@ public class Game {
     private int boardSize;
     private int player;
     private int playerPoints[];
+    private int movesCount;
+    private boolean isGameOver;
 
     private static int[][] directions = { {-1, -1}, {1, 1}, {-1, 1}, {1, -1} };
 
@@ -16,6 +18,8 @@ public class Game {
         playerPoints = new int[2];
         playerPoints[0] = 0;
         playerPoints[1] = 0;
+        movesCount = 0;
+        isGameOver = false;
     }
 
     public void onFieldClicked(int x, int y) {
@@ -23,6 +27,10 @@ public class Game {
         checkPoints(x, y);
         changePlayer();
         printBoard();
+
+        movesCount++;
+        if(movesCount == boardSize * boardSize)
+            isGameOver = true;
     }
 
     private void markField(int x, int y) {
@@ -101,5 +109,9 @@ public class Game {
 
     public int getPlayer() {
         return this.player;
+    }
+
+    public boolean isGameOver() {
+        return this.isGameOver;
     }
 }
