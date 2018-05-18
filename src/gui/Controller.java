@@ -15,6 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
+import java.awt.*;
+
 public class Controller {
 
     @FXML
@@ -88,16 +90,22 @@ public class Controller {
         } else {
             rec.setFill(new ImagePattern(new Image("/static/apple.png")));
             score2.setText(String.valueOf(game.getPlayerPoints()[1]));
+
         }
-        game.changePlayer();
-        rec.setDisable(true);
-        Minimax m = new Minimax(new Game(game.getBoard().length));
-        m.constructTree(new Node(game.getBoard(),game.getPlayer()),0);
+
         if (game.isGameOver()) {
             CustomAlert alert = new CustomAlert(Alert.AlertType.INFORMATION);
             alert.throwAlert("GAME OVER", "THE RESULT OF THE GAME", getWinner() + " POINTS!");
         }
 
+        game.changePlayer();
+        rec.setDisable(true);
+        Point point = game.getAIBestMove();
+        if(point != null) {
+            System.out.println(point);
+
+        }
+//        game.changePlayer();
     }
 
     private String getWinner() {

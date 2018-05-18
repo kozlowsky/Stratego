@@ -1,5 +1,12 @@
 package game;
 
+import ai.Minimax;
+import ai.Node;
+import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
+
+import java.awt.*;
+
 public class Game {
 
     private int board[][];
@@ -22,15 +29,13 @@ public class Game {
 
     public void onFieldClicked(int x, int y) {
         GameLogic.markField(x, y, currentPlayer, board);
-        playerPoints[currentPlayer - 1] = GameLogic.checkPoints(x, y, board);
+        playerPoints[currentPlayer - 1] += GameLogic.checkPoints(x, y, board);
         printBoard();
 
         movesCount++;
         if(movesCount == boardSize * boardSize)
             isGameOver = true;
     }
-
-
 
     public void changePlayer() {
         currentPlayer = (currentPlayer == 1) ? 2 : 1;
@@ -62,5 +67,15 @@ public class Game {
 
     public int[][] getBoard(){
         return board;
+    }
+
+    public Point getAIBestMove(){
+        Minimax m = new Minimax(new Game(getBoard().length));
+        Node node = new Node(getBoard(), getPlayer());
+        node = m.constructTree(node,0);
+        if(node.getBestChildren() != null)
+            return node.getBestChildren().getPoint();
+
+        return null;
     }
 }
