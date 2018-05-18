@@ -1,5 +1,7 @@
 package gui;
 
+import ai.Minimax;
+import ai.Node;
 import game.CustomAlert;
 import game.Game;
 import javafx.fxml.FXML;
@@ -58,13 +60,13 @@ public class Controller {
 
     private void addFields() {
         int boardSize = getBoardSize();
-
         if (boardSize > 1 && boardSize < 150) {
             for (int i = 0; i < boardSize; i++) {
                 board.addColumn(i);
                 board.getColumnConstraints().add(new ColumnConstraints(Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize));
                 for (int j = 0; j < boardSize; j++) {
                     Rectangle rec = new Rectangle(0, 0, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize);
+                    // Rectangles' on click event
                     rec.setOnMouseClicked(event -> updateRectangleAfterClick(rec));
                     if ((i + j) % 2 == 0)
                         rec.setFill(Color.BLACK);
@@ -80,7 +82,6 @@ public class Controller {
 
     private void updateRectangleAfterClick(Rectangle rec) {
         game.onFieldClicked(GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
-        System.out.println(game.getPlayer());
         if (game.getPlayer() == 1) {
             rec.setFill(new ImagePattern(new Image("/static/android.png")));
             score1.setText(String.valueOf(game.getPlayerPoints()[0]));
@@ -90,6 +91,8 @@ public class Controller {
         }
         game.changePlayer();
         rec.setDisable(true);
+        Minimax m = new Minimax(new Game(game.getBoard().length));
+        m.constructTree(new Node(game.getBoard(),game.getPlayer()),0);
         if (game.isGameOver()) {
             CustomAlert alert = new CustomAlert(Alert.AlertType.INFORMATION);
             alert.throwAlert("GAME OVER", "THE RESULT OF THE GAME", getWinner() + " POINTS!");

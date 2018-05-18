@@ -7,19 +7,21 @@ import java.util.Map;
 
 public class Node {
 
-    int board[][];
-    int size;
-    int player;
-    Map<Point, Node> children;
+    private int board[][];
+    private int size;
+    private int player;
+    private Map<Point, Node> children;
+    private int currentPlayerPoints;
 
     public Node(int[][] board, int player){
         this.size = board.length;
         this.board = board;
         children = new HashMap<>();
         this.player = player;
+        this.currentPlayerPoints = 0;
     }
 
-    public ArrayList<Point> getAvailableMoves(){
+    ArrayList<Point> getAvailableMoves(){
         ArrayList<Point> emptyCells = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -31,15 +33,19 @@ public class Node {
         return emptyCells;
     }
 
-    public int[][] getBoard(){
+    int[][] getBoard(){
         return board;
     }
 
-    public int getPlayer(){
+    int getPlayer(){
         return player;
     }
 
-    public Map<Point, Node> getChildren(){
+    Map<Point, Node> getChildren(){
         return children;
+    }
+
+    void setCurrentPlayerPoints(int currentPlayerPoints) {
+        this.currentPlayerPoints = currentPlayerPoints;
     }
 }

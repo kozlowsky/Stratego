@@ -1,15 +1,21 @@
 package ai;
 
 
+import game.Game;
+import game.GameLogic;
+
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Minimax implements IStrategy {
 
-    private int count = 0;
+    private Game currentGame;
 
-    public int constructTree(Node node){
-        count++;
+    public Minimax(Game game) {
+        this.currentGame = game;
+    }
+
+    public Node constructTree(Node node, int depth) {
         ArrayList<Point> listOfPossibleMoves = node.getAvailableMoves();
         for (Point p : listOfPossibleMoves) {
             int[][] newBoard = new int[node.getBoard().length][node.getBoard().length];
@@ -18,10 +24,11 @@ public class Minimax implements IStrategy {
             }
             int currentPlayer = node.getPlayer() == 1 ? 2 : 1;
             newBoard[p.x][p.y] = currentPlayer;
+            node.setCurrentPlayerPoints(GameLogic.checkPoints(p.x,p.y,newBoard));
             Node childNode = new Node(newBoard, currentPlayer);
-            node.getChildren().put(p, childNode);
-            constructTree(childNode);
+            node.getChildren().put(p, constructTree(childNode, depth + 1));
+
         }
-        return count;
+        return node;
     }
 }
