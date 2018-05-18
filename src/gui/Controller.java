@@ -65,7 +65,7 @@ public class Controller {
                 board.getColumnConstraints().add(new ColumnConstraints(Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize));
                 for (int j = 0; j < boardSize; j++) {
                     Rectangle rec = new Rectangle(0, 0, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize, Constants.BOARD_WINDOW_SIZE * 1.0 / boardSize);
-                    rec.setOnMouseClicked(event -> updateAfterClick(rec));
+                    rec.setOnMouseClicked(event -> updateRectangleAfterClick(rec));
                     if ((i + j) % 2 == 0)
                         rec.setFill(Color.BLACK);
                     else rec.setFill(Color.WHITE);
@@ -78,8 +78,7 @@ public class Controller {
         }
     }
 
-    private void updateAfterClick(Rectangle rec) {
-
+    private void updateRectangleAfterClick(Rectangle rec) {
         game.onFieldClicked(GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
         System.out.println(game.getPlayer());
         if (game.getPlayer() == 1) {

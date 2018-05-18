@@ -1,5 +1,8 @@
 package game;
 
+import ai.Minimax;
+import ai.Node;
+
 public class Game {
 
     private int board[][];
@@ -26,7 +29,10 @@ public class Game {
         markField(x, y);
         checkPoints(x, y);
         printBoard();
-
+        System.out.println("EMPTY CELLS");
+        Minimax minimax = new Minimax();
+        int c =  minimax.constructTree(new Node(board, getPlayer()));
+        System.out.println(c);
         movesCount++;
         if(movesCount == boardSize * boardSize)
             isGameOver = true;
@@ -112,5 +118,9 @@ public class Game {
 
     public boolean isGameOver() {
         return this.isGameOver;
+    }
+
+    public int[][] getBoard(){
+        return board;
     }
 }
