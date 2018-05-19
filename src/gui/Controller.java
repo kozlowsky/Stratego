@@ -1,7 +1,5 @@
 package gui;
 
-import ai.Minimax;
-import ai.Node;
 import game.CustomAlert;
 import game.Game;
 import javafx.fxml.FXML;
@@ -33,12 +31,16 @@ public class Controller {
 
 
     private Game game;
+    private int depth;
 
     public void newGame() {
         game = new Game(getBoardSize());
+        //game.setCurrentPlayer(2);
         clearBoard();
         board.setGridLinesVisible(true);
         addFields();
+        depth = 5;
+        //aiMove();
     }
 
     private int getBoardSize() {
@@ -82,30 +84,46 @@ public class Controller {
         }
     }
 
+    private void aiMove() {
+        Point point = game.getAIBestMove(depth);
+        if(point != null) {
+            System.out.println(point);
+            game.onFieldClicked(point.x, point.y);
+            Rectangle rectangle = null;
+            for(javafx.scene.Node child : board.getChildren()) {
+                if(child instanceof Rectangle && GridPane.getRowIndex(child) == point.x && GridPane.getColumnIndex(child) == point.y) {
+                    rectangle = (Rectangle) child;
+                }
+            }
+            if(rectangle != null) {
+                rectangle.setFill(new ImagePattern(new Image("/static/apple.png")));
+                score2.setText(String.valueOf(game.getPlayerPoints()[1]));
+                rectangle.setDisable(true);
+            }
+        }
+        else {
+            System.out.println("FUCK MY LIFE");
+        }
+        if (game.isGameOver()) {
+            CustomAlert alert = new CustomAlert(Alert.AlertType.INFORMATION);
+            alert.throwAlert("GAME OVER", "THE RESULT OF THE GAME", getWinner() + " POINTS!");
+            return;
+        }
+        game.changePlayer();
+    }
+
     private void updateRectangleAfterClick(Rectangle rec) {
         game.onFieldClicked(GridPane.getRowIndex(rec), GridPane.getColumnIndex(rec));
-        if (game.getPlayer() == 1) {
-            rec.setFill(new ImagePattern(new Image("/static/android.png")));
-            score1.setText(String.valueOf(game.getPlayerPoints()[0]));
-        } else {
-            rec.setFill(new ImagePattern(new Image("/static/apple.png")));
-            score2.setText(String.valueOf(game.getPlayerPoints()[1]));
-
-        }
+        rec.setFill(new ImagePattern(new Image("/static/android.png")));
+        score1.setText(String.valueOf(game.getPlayerPoints()[0]));
+        game.changePlayer();
 
         if (game.isGameOver()) {
             CustomAlert alert = new CustomAlert(Alert.AlertType.INFORMATION);
             alert.throwAlert("GAME OVER", "THE RESULT OF THE GAME", getWinner() + " POINTS!");
+            return;
         }
-
-        game.changePlayer();
-        rec.setDisable(true);
-        Point point = game.getAIBestMove();
-        if(point != null) {
-            System.out.println(point);
-
-        }
-//        game.changePlayer();
+        aiMove();
     }
 
     private String getWinner() {

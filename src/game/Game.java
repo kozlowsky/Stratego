@@ -1,9 +1,6 @@
 package game;
 
 import ai.Minimax;
-import ai.Node;
-import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
 
@@ -69,13 +66,12 @@ public class Game {
         return board;
     }
 
-    public Point getAIBestMove(){
-        Minimax m = new Minimax(new Game(getBoard().length));
-        Node node = new Node(getBoard(), getPlayer());
-        node = m.constructTree(node,0);
-        if(node.getBestChildren() != null)
-            return node.getBestChildren().getPoint();
+    public Point getAIBestMove(int depth){
+        Minimax m = new Minimax(depth);
+        return m.miniMax(board, null, 0, true);
+        }
 
-        return null;
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
