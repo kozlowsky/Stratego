@@ -39,7 +39,7 @@ public class Controller {
         clearBoard();
         board.setGridLinesVisible(true);
         addFields();
-        depth = 5;
+        depth = 3;
         //aiMove();
     }
 

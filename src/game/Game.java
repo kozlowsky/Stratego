@@ -68,7 +68,7 @@ public class Game {
 
     public Point getAIBestMove(int depth){
         Minimax m = new Minimax(depth);
-        return m.miniMax(board, null, 0, true);
+        return m.miniMax2(board, null, 0, true).getPoint();
         }
 
     public void setCurrentPlayer(int currentPlayer) {
